@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
+<script>
+function getAllDepts() {
+	$getJSON("/rest/dept",null function(depts)) {
+		console.log(depts)
+st=""
+for(var i=0;i<dept.lenght;i++) {
+	st+="<li>"+depts[i].id+","+depts[i].name+"</li>";
+	$("#depts").html(st);
+});
+	}
+
+	function addDept() {
+		$.ajax({
+			url:"rest/dept",
+		type:"post,"
+			success:function() {
+				alert ("department has been added successfuly")
+				},
+				error:function() {
+					alert("dept was not added successfuly due to error") 
+				},
+				data:{
+					"id" :$("#deptid").val(),
+					"name" :$("#deptnane").val()
+					}
+		});
+	}
+	function deleteDept() {
+		$.ajax({
+			url:"rest/dept",
+		type:"delete,"
+			success:function() {
+				alert ("department has been deleted successfuly")
+				},
+				error:function(xhr,s) {
+					console.log("ststus:"+s)
+					msg=xhr.responseJSON.message
+					console.log("message:"+msg)
+					alert("dept was not deleted successfuly due to error") 
+				}
+		});
+		}
+	function getdept() {
+		$.ajax({
+			url:"rest/dept"+$("#deptid").val,
+		type:"get,"
+			success:function(dept) {
+				$("#deptname").val(dept.name)
+			},
+				error:function(xhr,s,msg) {
+					//console.log("ststus:"+s)
+					//msg=xhr.responseJSON.message
+					//console.log("message:"+msg)
+					alert(error) 
+				}
+		});
+		}
+
+	function updateDept() {
+		$.ajax({
+			url:"rest/dept"+$("#deptid").val,
+		type:"put,"
+			success:function() {
+				alert ("department has been updated successfuly")
+			},
+				error:function(xhr,s,msg) {
+					alert("dept was not updated successfuly due to error") 
+				},
+				data:{
+					"id" :$("#deptid").val(),
+					"name" :$("#deptnane").val()
+					}
+		});
+		}
+</script>
+</head>
+<body>
+
+	<h2>Department Client</h2>
+	<h2>Add Or Delete Department Data</h2>
+	Id
+	<input style="color: orange;" type="number" value="deptid" /> Name
+	<input style="color: orange;" type="text" value="deptname" />
+	<p />
+	<button onclick="getdept()">Get</button>
+	<button onclick="addDept()">Add</button>
+	<button onclick="updateDept()">Update</button>
+	<button onclick="deleteDept()">Delete</button>
+	<hr />
+
+	<button onclick="getAllDepts()">Get All Departments</button>
+	<ul id="depts"></ul>
+
+</body>
+</html>
